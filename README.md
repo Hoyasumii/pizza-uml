@@ -1,1 +1,1 @@
-![](./image.png)
+![](https://github.com/Hoyasumii/pizza-uml/blob/main/image.png?raw=true)
