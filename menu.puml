@@ -1,0 +1,52 @@
+@startuml Menu
+
+!include data-structures.puml
+
+title Menu
+skinparam linetype ortho
+
+enum EatableCategories {
+  Food
+  Drink
+  Dessert
+}
+
+EatableCategories <-- IEatable
+interface IEatable {
+  * Id: string
+  + Name: string
+  + Description: string
+  + GetPrice(): double
+  + GetCategory(): EatableCategories
+  + IsAvailable(): bool
+}
+
+IEatable <|.. Food
+"IHashMap<TKey, TValue>" <-- Food
+abstract class Food {
+  - <<readonly>> _category: EatableCategories = Food
+  + <<abstract readonly>> IsForVegetarians: bool
+  + <<abstract readonly>> ContainsMilk: bool
+  + <<abstract readonly>> Ingredients: IHashMap<string, string>
+}
+
+IEatable <|.. Drink
+abstract class Drink {
+  - <<readonly>> _category: EatableCategories = Drink
+  + <<abstract readonly>> IsAlcoholic: bool
+}
+
+Drink <|-- Coke
+class Coke {
+  + <<override readonly>> IsAlcoholic: bool = false
+  - _price: double = 5
+}
+
+IEatable <|.. Dessert
+abstract class Dessert {
+  - <<readonly>> _category: EatableCategories = Dessert
+  + <<abstract readonly>> ContainsMilk: bool
+  + <<abstract readonly>> ContainsPeanut: bool
+}
+
+@enduml

@@ -1,6 +1,7 @@
 @startuml DataStructures
 
 title Estruturas Básicas
+skinparam linetype ortho
 
 interface ICollection {
   + Size(): int
@@ -41,6 +42,28 @@ ICollection <|-- "IImmutableList<T>"
 interface "IImmutableList<T>" {
   + Add(data: T): this
   + FindByIndex(index: int): T?
+}
+
+ICollection <|-- "IHashMap<TKey, TValue>"
+interface "IHashMap<TKey, TValue>" {
+  + Add(TKey key, TValue value): void
+  + Find(TKey key): TValue?
+  + Remove(TKey key): TValue?
+  + Exists(TKey key): bool
+}
+
+interface "IHashMapItem<TKey, TValue>" {
+  + key: TKey
+  + value: TValue
+}
+
+"IHashMap<TKey, TValue>" <|.. "HashMap<TKey, TValue>"
+class "HashMap<TKey, TValue>" {
+  - _buckets: IHashMapItem<TKey, TValue>[]
+  - _loadFactor: double = 0.75
+  - GetIndex(key: TKey): int
+  - Resize(): void
+  + HashMap(initialSize: int = 5): void
 }
 
 @end

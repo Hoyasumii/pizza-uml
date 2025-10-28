@@ -34,8 +34,8 @@ interface IDeliveryMan {
 IDeliveryMan <|.. DeliveryMan
 "IQueue<T>" <-- DeliveryMan
 class DeliveryMan <<IQueue<IOrder>>> {
-  - OrdersQueue: IQueue<IOrder>
-  - Status: DeliveryManStatus
+  - _ordersQueue: IQueue<IOrder>
+  - _status: DeliveryManStatus
 }
 
 interface IUser {
@@ -48,7 +48,7 @@ OrderManager "1" o-- "n" IOrder
 "IQueue<T>" <|.. OrderManager
 "ILinkedList<T>" <-- OrderManager
 class OrderManager <<IQueue<IOrder>>> {
-  - Orders: ILinkedList<IOrder>
+  - _orders: ILinkedList<IOrder>
   + <<override>> Pop(): IOrder
 }
 
@@ -71,10 +71,19 @@ interface IOrder {
   + Status : OrderStatus
 }
 
+enum EatableCategories {
+  Food
+  Drink
+  Dessert
+}
+
+EatableCategories <-- IEatable
 interface IEatable {
   * Id: string
   + Name: string
+  + Category: EatableCategories
   + GetPrice(): double
+  + GetCategory(): EatableCategories
 }
 
 interface IPizzaSlice {
@@ -110,5 +119,4 @@ class Soda {
 }
 
 ' TODO: Adicionar um sistema de estoque
-' TODO: Trocar IEatable por IEatable
 @enduml
