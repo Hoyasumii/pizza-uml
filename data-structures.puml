@@ -1,0 +1,46 @@
+@startuml DataStructures
+
+title Estruturas Básicas
+
+interface ICollection {
+  + Size(): int
+}
+
+ICollection <|-- "IQueue<T>"
+interface "IQueue<T>" {
+  + <<virtual>> Push(data: T): void
+  + <<virtual>> Pop(): T
+  + Front(): T
+  + Back(): T
+}
+
+interface "IIterableNode<T>" {
+  + Value: T
+  + SetNext(data: T): void
+  + GetNext(): IIterableNode<T>
+  + SetPrev(data: T): void
+  + GetPrev(): IIterableNode<T>
+}
+
+
+ICollection <|-- "ILinkedList<T>"
+"IIterableNode<T>" <-- "ILinkedList<T>"
+interface "ILinkedList<T>" {
+  + AddFirst(data: T): void
+  + AddLast(data: T): void
+  + RemoveFirst(): T?
+  + RemoveLast(): T?
+  + Remove(value: T): int?
+  + RemoveByIndex(index: int): T?
+  + GetHead(): IIterableNode<T>?
+  + GetTail(): IIterableNode<T>?
+  + FindByIndex(index: int): IIterableNode<T>?
+}
+
+ICollection <|-- "IImmutableList<T>"
+interface "IImmutableList<T>" {
+  + Add(data: T): this
+  + FindByIndex(index: int): T?
+}
+
+@end

@@ -1,0 +1,114 @@
+@startuml Pizzeria
+
+!include data-structures.puml
+
+title Sistema de Pizzaria
+skinparam linetype ortho
+
+
+IUser <|-- ICustomer
+"IImmutableList<T>" <-- ICustomer
+ICustomer "1" *-- "n" IOrder
+interface ICustomer {
+  + GetOrders(): IImmutableList<IOrder>
+  + AddOrder(order: IOrder): void
+}
+
+enum DeliveryManStatus {
+  Offline
+  Available
+  OnDelivery
+  Returning
+  OnBreak
+}
+
+IUser <|-- IDeliveryMan
+IDeliveryMan "1" *-- "n" IOrder
+DeliveryManStatus <-- IDeliveryMan
+interface IDeliveryMan {
+  + SetStatus(status: DeliveryManStatus): void
+  + GetStatus(): DeliveryManStatus
+  + GetQueue(): IQueue<IOrder>
+}
+
+IDeliveryMan <|.. DeliveryMan
+"IQueue<T>" <-- DeliveryMan
+class DeliveryMan <<IQueue<IOrder>>> {
+  - OrdersQueue: IQueue<IOrder>
+  - Status: DeliveryManStatus
+}
+
+interface IUser {
+  + Name: string
+  + Address: string
+}
+
+
+OrderManager "1" o-- "n" IOrder
+"IQueue<T>" <|.. OrderManager
+"ILinkedList<T>" <-- OrderManager
+class OrderManager <<IQueue<IOrder>>> {
+  - Orders: ILinkedList<IOrder>
+  + <<override>> Pop(): IOrder
+}
+
+enum OrderStatus {
+  Received
+  Preparing
+  ReadyForPickup
+  OutForDelivery
+  Completed
+  Cancelled
+}
+
+ICustomer <.. IOrder
+OrderStatus <-- IOrder
+IOrder "1" *-- "n" IEatable
+interface IOrder {
+  + Details: ICollection<IEatable>
+  + GetPrice(): double
+  + Customer: ICustomer
+  + Status : OrderStatus
+}
+
+interface IEatable {
+  * Id: string
+  + Name: string
+  + GetPrice(): double
+}
+
+interface IPizzaSlice {
+  * Id: string
+  + Name: string
+  + Flavor: string
+  # Price: double
+}
+
+IEatable <|.. Pizza
+Pizza "1" *-- "n" IPizzaSlice
+class Pizza {
+  + NumberOfSlices: int = 8
+  + Slices: ICollection<IPizzaSlice>
+}
+
+IEatable <|.. Calzone
+class Calzone {
+  + Flavor: string
+  # Price: double
+}
+
+IEatable <|.. Lasagna
+class Lasagna {
+  + Flavor: string
+  # Price: double
+}
+
+IEatable <|.. Soda
+class Soda {
+  + Flavor: string
+  # Price: double
+}
+
+' TODO: Adicionar um sistema de estoque
+' TODO: Trocar IEatable por IEatable
+@enduml
