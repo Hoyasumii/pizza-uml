@@ -1,7 +1,7 @@
 @startuml DataStructures
 
 title Estruturas Básicas
-skinparam linetype ortho
+' skinparam linetype ortho
 
 interface ICollection {
   + Size(): int

@@ -1,9 +1,10 @@
 @startuml Pizzeria
 
 !include data-structures.puml
+!include menu.puml
 
 title Sistema de Pizzaria
-skinparam linetype ortho
+' skinparam linetype ortho
 
 
 IUser <|-- ICustomer
@@ -71,52 +72,7 @@ interface IOrder {
   + Status : OrderStatus
 }
 
-enum EatableCategories {
-  Food
-  Drink
-  Dessert
-}
 
-EatableCategories <-- IEatable
-interface IEatable {
-  * Id: string
-  + Name: string
-  + Category: EatableCategories
-  + GetPrice(): double
-  + GetCategory(): EatableCategories
-}
-
-interface IPizzaSlice {
-  * Id: string
-  + Name: string
-  + Flavor: string
-  # Price: double
-}
-
-IEatable <|.. Pizza
-Pizza "1" *-- "n" IPizzaSlice
-class Pizza {
-  + NumberOfSlices: int = 8
-  + Slices: ICollection<IPizzaSlice>
-}
-
-IEatable <|.. Calzone
-class Calzone {
-  + Flavor: string
-  # Price: double
-}
-
-IEatable <|.. Lasagna
-class Lasagna {
-  + Flavor: string
-  # Price: double
-}
-
-IEatable <|.. Soda
-class Soda {
-  + Flavor: string
-  # Price: double
-}
 
 ' TODO: Adicionar um sistema de estoque
 @enduml

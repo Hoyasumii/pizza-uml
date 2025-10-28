@@ -3,7 +3,7 @@
 !include data-structures.puml
 
 title Menu
-skinparam linetype ortho
+' skinparam linetype ortho
 
 enum EatableCategories {
   Food
